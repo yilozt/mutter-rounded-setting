@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {   
+    "lib": ["ES6"],              
+    "target": "ES5",
+    "module": "ES6",
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+  }
+}

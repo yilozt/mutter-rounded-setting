@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24" />
+  <object class="GtkAdjustment" id="adj_radius">
+    <property name="upper">100</property>
+    <property name="lower">2</property>
+    <property name="value">2</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_padding_left">
+    <property name="upper">100</property>
+    <property name="lower">0</property>
+    <property name="value">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_padding_right">
+    <property name="upper">100</property>
+    <property name="lower">0</property>
+    <property name="value">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_padding_top">
+    <property name="upper">100</property>
+    <property name="lower">0</property>
+    <property name="value">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_padding_bottom">
+    <property name="upper">100</property>
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="HdyWindow" id="window">
+    <property name="can-focus">False</property>
+    <property name="default-width">600</property>
+    <property name="default-height">700</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="HdyHeaderBar">
+            <property name="visible">True</property>
+            <property name="centering_policy">strict</property>
+            <property name="can_focus">False</property>
+            <property name="show_close_button">True</property>
+            <property name="title">Setting</property>
+            <child type="title">
+              <object class="HdyViewSwitcherTitle" id="switcher_title">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stack">stack</property>
+                <property name="title" translatable="yes">mutter rounded setting</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="HdyPreferencesPage">
+                <property name="visible">True</property>
+                <child>
+                  <object class="HdyPreferencesGroup">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="HdyClamp">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">fill</property>
+                        <property name="valign">fill</property>
+                        <property name="tightening-threshold">300</property>
+                        <child>
+                          <object class="GtkListBox" id="lists_listbox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="expand">False</property>
+                            <property name="selection-mode">none</property>
+                            <style>
+                              <class name="content" />
+                            </style>
+                            <child>
+                              <object class="HdyActionRow">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes">Rounded radius</property>
+                                <property name="activatable_widget">radius_scale</property>
+                                <child>
+                                  <object class="GtkScale" id="radius_scale">
+                                    <property name="visible">True</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="value-pos">left</property>
+                                    <property name="adjustment">adj_radius</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="HdyActionRow">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes">Top Clipping</property>
+                                <property name="activatable_widget">padding_top</property>
+                                <child>
+                                  <object class="GtkSpinButton" id="padding_top">
+                                    <property name="visible">True</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">center</property>
+                                    <property name="numeric">1</property>
+                                    <property name="adjustment">adj_padding_top</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="HdyActionRow">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes">Bottom Clipping</property>
+                                <property name="activatable_widget">padding_bottom</property>
+                                <child>
+                                  <object class="GtkSpinButton" id="padding_bottom">
+                                    <property name="visible">True</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">center</property>
+                                    <property name="numeric">1</property>
+                                    <property name="adjustment">adj_padding_bottom</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="HdyActionRow">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes">Left Clipping</property>
+                                <property name="activatable_widget">padding_left</property>
+                                <child>
+                                  <object class="GtkSpinButton" id="padding_left">
+                                    <property name="visible">True</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">center</property>
+                                    <property name="numeric">1</property>
+                                    <property name="adjustment">adj_padding_left</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="HdyActionRow">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes">Right Clipping</property>
+                                <property name="activatable_widget">padding_right</property>
+                                <child>
+                                  <object class="GtkSpinButton" id="padding_right">
+                                    <property name="visible">True</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">center</property>
+                                    <property name="numeric">1</property>
+                                    <property name="adjustment">adj_padding_right</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page1</property>
+                <property name="title" translatable="yes">Global</property>
+              </packing>
+            </child>
+            <child>
+              <object class="HdyPreferencesPage">
+                <property name="visible">True</property>
+                <child>
+                  <object class="HdyPreferencesGroup">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkListBox" id="bl_list">
+                        <property name="visible">True</property>
+                        <property name="expand">False</property>
+                        <property name="activate-on-single-click">False</property>
+                        <property name="selection-mode">none</property>
+                        <style>
+                          <class name="content" />
+                        </style>
+                        <child></child>
+                        <child>
+                          <object class="HdyPreferencesRow">
+                            <property name="title">Add Special App</property>
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkButton" id="add_bl_btn">
+                                <property name="visible">True</property>
+                                <style>
+                                  <class name="flat" />
+                                </style>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">list-add-symbolic</property>
+                                    <property name="margin">8</property>
+                                    <property name="visible">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page2</property>
+                <property name="title" translatable="yes">BlackList</property>
+              </packing>
+            </child>
+            <child>
+              <object class="HdyPreferencesPage">
+                <property name="visible">True</property>
+                <child>
+                  <object class="HdyPreferencesGroup">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkListBox" id="app_list">
+                        <property name="visible">True</property>
+                        <property name="expand">False</property>
+                        <property name="activate-on-single-click">False</property>
+                        <property name="selection-mode">none</property>
+                        <style>
+                          <class name="content" />
+                        </style>
+                        <child></child>
+                        <child>
+                          <object class="HdyPreferencesRow">
+                            <property name="title">Add Special App</property>
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkButton" id="add_app_btn">
+                                <property name="visible">True</property>
+                                <style>
+                                  <class name="flat" />
+                                </style>
+                                <child>
+                                  <object class="GtkImage" id="add_img">
+                                    <property name="icon-name">list-add-symbolic</property>
+                                    <property name="margin">8</property>
+                                    <property name="visible">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page3</property>
+                <property name="title" translatable="yes">Special</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
+        <child>
+          <object class="HdyViewSwitcherBar" id="switcher_bar">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="stack">stack</property>
+            <property name="reveal" bind-source="switcher_title" bind-property="title-visible" bind-flags="sync-create" />
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
