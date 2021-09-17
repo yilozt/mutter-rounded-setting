@@ -34,8 +34,8 @@ interface InitListFunc {
 
 function errMsg() {
   new Notify.Notification({
-    summary: "列表中存在相同的程序",
-    body: "设置将不会生效",
+    summary: "same program exists in the list",
+    body: "The Settings will not take effect",
   }).show();
 }
 
