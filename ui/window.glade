@@ -31,10 +31,30 @@
     <property name="lower">0</property>
     <property name="step-increment">1</property>
   </object>
+  
+  <object class="GtkAdjustment" id="adj_blur_sigmal">
+    <property name="upper">100</property>
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_blur_brightness">
+    <property name="upper">100</property>
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_blured_window_opacity">
+    <property name="upper">100</property>
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="step-increment">1</property>
+  </object>
+
   <object class="HdyWindow" id="window">
     <property name="can-focus">False</property>
-    <property name="default-width">600</property>
-    <property name="default-height">700</property>
+    <property name="default-width">800</property>
+    <property name="default-height">600</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -61,6 +81,9 @@
           <object class="GtkStack" id="stack">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+
+            <!-- Global -->
+
             <child>
               <object class="HdyPreferencesPage">
                 <property name="visible">True</property>
@@ -69,98 +92,89 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="HdyClamp">
+                      <object class="GtkListBox" id="lists_listbox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="halign">fill</property>
-                        <property name="valign">fill</property>
-                        <property name="tightening-threshold">300</property>
+                        <property name="hexpand">True</property>
+                        <property name="selection-mode">none</property>
+                        <style>
+                          <class name="content" />
+                        </style>
                         <child>
-                          <object class="GtkListBox" id="lists_listbox">
+                          <object class="HdyActionRow">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="expand">False</property>
-                            <property name="selection-mode">none</property>
-                            <style>
-                              <class name="content" />
-                            </style>
+                            <property name="title" translatable="yes">Rounded radius</property>
+                            <property name="activatable_widget">radius_scale</property>
                             <child>
-                              <object class="HdyActionRow">
+                              <object class="GtkScale" id="radius_scale">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes">Rounded radius</property>
-                                <property name="activatable_widget">radius_scale</property>
-                                <child>
-                                  <object class="GtkScale" id="radius_scale">
-                                    <property name="visible">True</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="value-pos">left</property>
-                                    <property name="adjustment">adj_radius</property>
-                                  </object>
-                                </child>
+                                <property name="hexpand">True</property>
+                                <property name="value-pos">left</property>
+                                <property name="adjustment">adj_radius</property>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Top Clipping</property>
+                            <property name="activatable_widget">padding_top</property>
                             <child>
-                              <object class="HdyActionRow">
+                              <object class="GtkSpinButton" id="padding_top">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes">Top Clipping</property>
-                                <property name="activatable_widget">padding_top</property>
-                                <child>
-                                  <object class="GtkSpinButton" id="padding_top">
-                                    <property name="visible">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="valign">center</property>
-                                    <property name="numeric">1</property>
-                                    <property name="adjustment">adj_padding_top</property>
-                                  </object>
-                                </child>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="numeric">1</property>
+                                <property name="adjustment">adj_padding_top</property>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Bottom Clipping</property>
+                            <property name="activatable_widget">padding_bottom</property>
                             <child>
-                              <object class="HdyActionRow">
+                              <object class="GtkSpinButton" id="padding_bottom">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes">Bottom Clipping</property>
-                                <property name="activatable_widget">padding_bottom</property>
-                                <child>
-                                  <object class="GtkSpinButton" id="padding_bottom">
-                                    <property name="visible">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="valign">center</property>
-                                    <property name="numeric">1</property>
-                                    <property name="adjustment">adj_padding_bottom</property>
-                                  </object>
-                                </child>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="numeric">1</property>
+                                <property name="adjustment">adj_padding_bottom</property>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Left Clipping</property>
+                            <property name="activatable_widget">padding_left</property>
                             <child>
-                              <object class="HdyActionRow">
+                              <object class="GtkSpinButton" id="padding_left">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes">Left Clipping</property>
-                                <property name="activatable_widget">padding_left</property>
-                                <child>
-                                  <object class="GtkSpinButton" id="padding_left">
-                                    <property name="visible">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="valign">center</property>
-                                    <property name="numeric">1</property>
-                                    <property name="adjustment">adj_padding_left</property>
-                                  </object>
-                                </child>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="numeric">1</property>
+                                <property name="adjustment">adj_padding_left</property>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Right Clipping</property>
+                            <property name="activatable_widget">padding_right</property>
                             <child>
-                              <object class="HdyActionRow">
+                              <object class="GtkSpinButton" id="padding_right">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes">Right Clipping</property>
-                                <property name="activatable_widget">padding_right</property>
-                                <child>
-                                  <object class="GtkSpinButton" id="padding_right">
-                                    <property name="visible">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="valign">center</property>
-                                    <property name="numeric">1</property>
-                                    <property name="adjustment">adj_padding_right</property>
-                                  </object>
-                                </child>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="numeric">1</property>
+                                <property name="adjustment">adj_padding_right</property>
                               </object>
                             </child>
                           </object>
@@ -175,11 +189,15 @@
                 <property name="title" translatable="yes">Global</property>
               </packing>
             </child>
+
+            <!-- Black List-->
+
             <child>
               <object class="HdyPreferencesPage">
                 <property name="visible">True</property>
                 <child>
                   <object class="HdyPreferencesGroup">
+                    <property name="title">For apps in this list, the setting will effect in next openning.</property>
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkListBox" id="bl_list">
@@ -222,6 +240,9 @@
                 <property name="title" translatable="yes">BlackList</property>
               </packing>
             </child>
+
+            <!-- Special App List -->
+
             <child>
               <object class="HdyPreferencesPage">
                 <property name="visible">True</property>
@@ -269,6 +290,110 @@
                 <property name="title" translatable="yes">Special</property>
               </packing>
             </child>
+
+            <!-- Blur Setting -->
+
+            <child>
+              <object class="HdyPreferencesPage">
+                <property name="visible">True</property>
+                <child>
+                  <object class="HdyPreferencesGroup">
+                    <property name="visible">True</property>
+                    <property name="title">Blur Setting</property>
+                    <child>
+                      <object class="HdyActionRow">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes">Blur sigmal</property>
+                        <property name="activatable_widget">blur-sigmal</property>
+                        <child>
+                          <object class="GtkScale" id="blur-sigmal">
+                            <property name="visible">True</property>
+                            <property name="value-pos">left</property>
+                            <property name="adjustment">adj_blur_sigmal</property>
+                            <property name="width-request">250</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HdyActionRow">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes">Blur Brightness</property>
+                        <property name="activatable_widget">blur-brightness</property>
+                        <child>
+                          <object class="GtkScale" id="blur-brightness">
+                            <property name="visible">True</property>
+                            <property name="value-pos">left</property>
+                            <property name="adjustment">adj_blur_brightness</property>
+                            <property name="width-request">250</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HdyActionRow">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes">Blured window opaciry</property>
+                        <property name="activatable_widget">blured-window-opacity</property>
+                        <child>
+                          <object class="GtkScale" id="blured-window-opacity">
+                            <property name="visible">True</property>
+                            <property name="width-request">250</property>
+                            <property name="value-pos">left</property>
+                            <property name="adjustment">adj_blured_window_opacity</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyPreferencesGroup">
+                    <property name="visible">True</property>
+                    <property name="title">Blured List</property>
+                    <property name="description">For apps in this list, the setting will effect in next openning.</property>
+                    <child>
+                      <object class="GtkListBox" id="blur_list">
+                        <property name="visible">True</property>
+                        <property name="expand">False</property>
+                        <property name="activate-on-single-click">False</property>
+                        <property name="selection-mode">none</property>
+                        <style>
+                          <class name="content" />
+                        </style>
+                        <child></child>
+                        <child>
+                          <object class="HdyPreferencesRow">
+                            <property name="title">Add Special App</property>
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkButton" id="add_blur_btn">
+                                <property name="visible">True</property>
+                                <style>
+                                  <class name="flat" />
+                                </style>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">list-add-symbolic</property>
+                                    <property name="margin">8</property>
+                                    <property name="visible">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page4</property>
+                <property name="title" translatable="yes">Blur Effect</property>
+              </packing>
+            </child>
+
           </object>
           <packing>
             <property name="expand">True</property>

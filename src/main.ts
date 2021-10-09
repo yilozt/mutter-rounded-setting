@@ -17,6 +17,7 @@ app.connect("startup", (_app) => {
 
 app.connect("activate", (app) => {
   const win = SettingsWin(app);
+  win.set_wmclass("mutter_setting", "Mutter Setting")
   win.set_application(app);
   win.show_all();
 });

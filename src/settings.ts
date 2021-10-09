@@ -2,7 +2,11 @@ import * as Gio from "../@types/Gjs/Gio-2.0";
 
 const settings = Gio.Settings.new("org.gnome.mutter");
 const PADDINGS = JSON.parse(settings.get_string("clip-edge-padding"));
-const BLACKLISTS = settings.get_strv("black-list");
+
+const lists = {
+  "black-list": settings.get_strv("black-list"),
+  "blur-list": settings.get_strv("blur-list"),
+};
 
 export interface Paddings {
   left: number;
@@ -44,7 +48,11 @@ export function GetGlobalPadding(): Paddings {
 }
 
 export function GetBlackList(): string[] {
-  return BLACKLISTS;
+  return lists["black-list"];
+}
+
+export function getBlurList(): string[] {
+  return lists["blur-list"];
 }
 
 export function GetAppPaddings(): AppPaddings[] {
@@ -57,11 +65,20 @@ export function GetAppPaddings(): AppPaddings[] {
   });
 }
 
-export function ChangeBlackListName(oldstr: string, newstr: string): boolean {
-  if (BLACKLISTS.indexOf(newstr) != -1) return false;
-  BLACKLISTS[BLACKLISTS.indexOf(oldstr)] = newstr;
-  settings.set_strv("black-list", BLACKLISTS);
+function change_str_list(key: string, oldstr: string, newstr: string): boolean {
+  const list = lists[key];
+  if (list.indexOf(newstr) != -1) return false;
+  list[list.indexOf(oldstr)] = newstr;
+  settings.set_strv(key, list);
   return true;
+}
+
+export function ChangeBlackListName(oldstr: string, newstr: string): boolean {
+  return change_str_list("black-list", oldstr, newstr);
+}
+
+export function ChangeBlurListName(oldstr: string, newstr: string): boolean {
+  return change_str_list("blur-list", oldstr, newstr);
 }
 
 export function ChangeAppListName(oldstr: string, newstr: string): boolean {
@@ -85,9 +102,18 @@ export function ChangeAppListPadding(
   return true;
 }
 
+function del_list_item(key: string, name: string) {
+  const list = lists[key];
+  list.splice(list.indexOf(name), 1);
+  settings.set_strv(key, list);
+}
+
 export function DelBlackListItem(name: string) {
-  BLACKLISTS.splice(BLACKLISTS.indexOf(name), 1);
-  settings.set_strv("black-list", BLACKLISTS);
+  del_list_item("black-list", name);
+}
+
+export function DelBlurListItem(name: string) {
+  del_list_item("blur-list", name);
 }
 
 export function DelAppListItem(name: string) {
@@ -95,16 +121,25 @@ export function DelAppListItem(name: string) {
   settings.set_string("clip-edge-padding", JSON.stringify(PADDINGS));
 }
 
-export function AddBlackListItem(name: string): boolean {
-  if (BLACKLISTS.indexOf(name) != -1) return false;
-  BLACKLISTS.push(name);
-  settings.set_strv("black-list", BLACKLISTS);
+function add_list_item(key: string, name: string): boolean {
+  const list = lists[key];
+  if (list.indexOf(name) != -1) return false;
+  list.push(name);
+  settings.set_strv(key, list);
   return true;
 }
 
-export function AddAppListItem(name: string, paddings: Paddings): boolean {
+export function AddBlackListItem(name: string): boolean {
+  return add_list_item("black-list", name);
+}
+
+export function AddBlurListItem(name: string): boolean {
+  return add_list_item("blur-list", name);
+}
+
+export function AddAppListItem(name: string): boolean {
   if (PADDINGS["apps"][name]) return false;
-  PADDINGS["apps"][name] = padding2Arr(paddings);
+  PADDINGS["apps"][name] = padding2Arr(GetGlobalPadding());
   settings.set_string("clip-edge-padding", JSON.stringify(PADDINGS));
   return true;
 }
