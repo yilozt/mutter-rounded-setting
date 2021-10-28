@@ -64,7 +64,7 @@ interface ItemConfig {
   ui?: string;
   list?: Gtk.ListBox;
   expanded?: boolean;
-  padding?: Paddings;
+  paddings?: Paddings;
   on_name_changed?: OnNameChanged;
   on_del?: OnDel;
 }
@@ -81,7 +81,7 @@ function new_item({
   ui = "",
   list,
   expanded = false,
-  padding,
+  paddings,
   on_name_changed,
   on_del,
 }: ItemConfig): Gtk.Widget {
@@ -94,9 +94,10 @@ function new_item({
   row.title = title;
   entry.text = title;
 
-  if (padding) {
-    padding_setting(builder, padding, (padding) => {
-      if (!ChangeAppListPadding(row.title, entry.text, padding)) errMsg();
+  if (paddings) {
+    log(JSON.stringify(paddings));
+    padding_setting(builder, paddings, (p) => {
+      if (!ChangeAppListPadding(row.title, entry.text, p)) errMsg();
       else row.title = entry.text;
     });
   }
@@ -164,7 +165,7 @@ function new_list({
         ui,
         list: list_widget,
         expanded: true,
-        padding: list_id == "app_list" ? GetGlobalPadding() : undefined,
+        paddings: list_id == "app_list" ? GetGlobalPadding() : undefined,
         on_name_changed,
         on_del,
       });
