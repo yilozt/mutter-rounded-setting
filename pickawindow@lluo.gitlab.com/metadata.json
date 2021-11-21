@@ -1,6 +1,6 @@
 {
-  "name": "Pick A Window",
-  "description": "get wm_class_instance of a window",
+  "name": "[Mutter-rounded] Pick A Window",
+  "description": "used by mutter-rounded: get wm_class_instance of a window",
   "uuid": "pickawindow@lluo.gitlab.com",
   "shell-version": [
     "41"

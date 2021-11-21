@@ -95,7 +95,6 @@ function new_item({
   entry.text = title;
 
   if (paddings) {
-    log(JSON.stringify(paddings));
     padding_setting(builder, paddings, (p) => {
       if (!ChangeAppListPadding(row.title, entry.text, p)) errMsg();
       else row.title = entry.text;
@@ -109,13 +108,12 @@ function new_item({
   const update_label = () => {
     let ok = on_name_changed && on_name_changed(row.title, entry.text);
     ok ? (row.title = entry.text) : errMsg(), (entry.text = row.title);
-    log(entry.text);
     entry.has_focus = true;
   };
 
   pick_bl_btn.connect("clicked", () =>
     RunPickWindow((app) => {
-      log(app);
+      log('[pick] ' + app);
       if (app.length > 0) {
         entry.text = app;
         if (entry.text != row.title) {
