@@ -1,0 +1,8 @@
+{
+  "name": "Pick A Window",
+  "description": "get wm_class_instance of a window",
+  "uuid": "pickawindow@lluo.gitlab.com",
+  "shell-version": [
+    "41"
+  ]
+}

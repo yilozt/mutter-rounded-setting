@@ -106,14 +106,20 @@ function new_item({
     row.expanded = true;
   }
 
+  const update_label = () => {
+    let ok = on_name_changed && on_name_changed(row.title, entry.text);
+    ok ? (row.title = entry.text) : errMsg(), (entry.text = row.title);
+    log(entry.text);
+    entry.has_focus = true;
+  };
+
   pick_bl_btn.connect("clicked", () =>
     RunPickWindow((app) => {
-      if (app.length != 0) {
+      log(app);
+      if (app.length > 0) {
         entry.text = app;
         if (entry.text != row.title) {
-          let ok = on_name_changed && on_name_changed(row.title, entry.text);
-          ok ? (row.title = entry.text) : errMsg(), (entry.text = row.title);
-          entry.has_focus = true;
+          update_label();
         }
       }
     })
@@ -121,9 +127,7 @@ function new_item({
 
   entry.connect("activate", (entry) => {
     if (entry.text != row.title && entry.text.length != 0) {
-      let ok = on_name_changed && on_name_changed(row.title, entry.text);
-      ok ? (row.title = entry.text) : errMsg(), (entry.text = row.title);
-      entry.has_focus = true;
+      update_label();
     }
   });
 
@@ -252,49 +256,49 @@ export function SettingsWin(app: Gtk.Application): Gtk.Window {
 
   global_setting(builder);
 
-  new_list({
-    builder,
-    list_id: "bl_list",
-    add_btn_id: "add_bl_btn",
-    item_ui: blrow_ui,
-    init_config: () =>
-      GetBlackList().map((title) => ({
-        title,
-        expanded: false,
-      })),
-    on_name_changed: ChangeBlackListName,
-    on_del: DelBlackListItem,
-    on_add: AddBlackListItem,
-  });
-
-  new_list({
-    builder,
-    list_id: "app_list",
-    add_btn_id: "add_app_btn",
-    item_ui: approw_ui,
-    init_config: () =>
-      GetAppPaddings().map(({ name: title, paddings }) => ({
-        title,
-        ui: approw_ui,
-        paddings,
-      })),
-    on_name_changed: ChangeAppListName,
-    on_del: DelAppListItem,
-    on_add: AddAppListItem,
-  });
-
-  new_list({
-    builder,
-    list_id: "blur_list",
-    add_btn_id: "add_blur_btn",
-    item_ui: blrow_ui,
-    init_config() {
-      return getBlurList().map((title) => ({ title }));
+  [
+    {
+      builder,
+      list_id: "bl_list",
+      add_btn_id: "add_bl_btn",
+      item_ui: blrow_ui,
+      init_config: () =>
+        GetBlackList().map((title) => ({
+          title,
+          expanded: false,
+        })),
+      on_name_changed: ChangeBlackListName,
+      on_del: DelBlackListItem,
+      on_add: AddBlackListItem,
     },
-    on_name_changed: ChangeBlurListName,
-    on_add: AddBlurListItem,
-    on_del: DelBlurListItem,
-  });
+    {
+      builder,
+      list_id: "app_list",
+      add_btn_id: "add_app_btn",
+      item_ui: approw_ui,
+      init_config: () =>
+        GetAppPaddings().map(({ name: title, paddings }) => ({
+          title,
+          ui: approw_ui,
+          paddings,
+        })),
+      on_name_changed: ChangeAppListName,
+      on_del: DelAppListItem,
+      on_add: AddAppListItem,
+    },
+    {
+      builder,
+      list_id: "blur_list",
+      add_btn_id: "add_blur_btn",
+      item_ui: blrow_ui,
+      init_config() {
+        return getBlurList().map((title) => ({ title }));
+      },
+      on_name_changed: ChangeBlurListName,
+      on_add: AddBlurListItem,
+      on_del: DelBlurListItem,
+    },
+  ].forEach((config) => new_list(config));
 
   win.connect("destroy", () => {
     pick_win.destroy();

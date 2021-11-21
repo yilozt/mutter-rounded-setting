@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    main: "./src/main.ts",
+    mutter_settings: "./src/main.ts",
   },
   output: {
     filename: "[name].js",

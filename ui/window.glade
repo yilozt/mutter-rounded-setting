@@ -333,7 +333,7 @@
                     <child>
                       <object class="HdyActionRow">
                         <property name="visible">True</property>
-                        <property name="title" translatable="yes">Blured window opaciry</property>
+                        <property name="title" translatable="yes">Blured window opacity</property>
                         <property name="activatable_widget">blured-window-opacity</property>
                         <child>
                           <object class="GtkScale" id="blured-window-opacity">

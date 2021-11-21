@@ -1,6 +1,7 @@
-import * as Glib from "../@types/Gjs/GLib-2.0";
+import * as GLib from "../@types/Gjs/GLib-2.0";
 import * as Gtk from "../@types/Gjs/Gtk-3.0";
 import * as Gdk from "../@types/Gjs/Gdk-3.0";
+import * as Gio from "../@types/Gjs/Gio-2.0";
 
 interface PickCb {
   (name: string): void;
@@ -8,40 +9,11 @@ interface PickCb {
 
 let win: Gtk.Window;
 let cb: PickCb;
+const settings = Gio.Settings.new("org.gnome.shell.extensions.pickawindow");
 
-function window_wm_class_instance_at_pos(x: number, y: number): string {
-  const cmd = `gdbus call -e -d org.gnome.Shell \\
-               -o /org/gnome/Shell  \\
-               -m org.gnome.Shell.Eval '
-      
-              const { Clutter } = imports.gi;
-              
-              const actor = global
-                .get_stage()
-                .get_actor_at_pos(Clutter.PickMode.ALL, ${x}, ${y});
-              
-              const type_name = actor.toString();
-              
-              if (type_name.indexOf("MetaSurfaceActor") != -1) {
-                actor.get_parent().get_meta_window().get_wm_class_instance();
-              } else if (type_name.indexOf("WindowActor") != -1) {
-                actor.get_meta_window().get_wm_class_instance();
-              } else {
-                "";
-              }        // end '`;
-
-  const res = Glib.spawn_command_line_sync(cmd)[1];
-  let str: string = "";
-  if (res) {
-    for (let i = 0; i < res.length; i++) {
-      str += String.fromCharCode(res[i]);
-    }
-  }
-
-  str = str.replace(/^\(\S+, '"/, "");
-  str = str.replace(/"'\)\s+$/, "");
-
-  return str;
+function window_wm_class_instance_at_pos(x: number, y: number) {
+  // @ts-ignore
+  settings.set_value("pick-position", new GLib.Variant("(ii)", [x, y]));
 }
 
 export function InitPickWindow(app: Gtk.Application): Gtk.Window {
@@ -94,8 +66,8 @@ export function InitPickWindow(app: Gtk.Application): Gtk.Window {
     const [_, x, y] = event.get_device()?.get_position() || [0, 0, 0];
 
     win.hide();
-    Glib.timeout_add(0, 200, () => {
-      cb(window_wm_class_instance_at_pos(x, y));
+    GLib.timeout_add(0, 200, () => {
+      window_wm_class_instance_at_pos(x, y);
       return false;
     });
   });
@@ -106,6 +78,15 @@ export function InitPickWindow(app: Gtk.Application): Gtk.Window {
       label.set_label(`(${x}, ${y})`);
     }
   );
+  settings.connect("changed", (_, key) => {
+    if (key == "wm-instance") {
+      const wm_instance = settings.get_string("wm-instance");
+      if (wm_instance.length > 0) {
+        cb(wm_instance);
+        settings.set_string("wm-instance", "");
+      }
+    }
+  });
 
   return win;
 }

@@ -602,7 +602,20 @@ export enum script_t {
     DIVES_AKURU,
     KHITAN_SMALL_SCRIPT,
     YEZIDI,
+    CYPRO_MINOAN,
+    OLD_UYGHUR,
+    TANGSA,
+    TOTO,
+    VITHKUQI,
     INVALID,
+}
+export enum style_tag_t {
+    ITALIC,
+    OPTICAL_SIZE,
+    SLANT_ANGLE,
+    SLANT_RATIO,
+    WIDTH,
+    WEIGHT,
 }
 export enum unicode_combining_class_t {
     NOT_REORDERED,
@@ -796,6 +809,7 @@ export function buffer_get_glyph_positions(buffer: buffer_t): glyph_position_t[]
 export function buffer_get_invisible_glyph(buffer: buffer_t): codepoint_t
 export function buffer_get_language(buffer: buffer_t): language_t
 export function buffer_get_length(buffer: buffer_t): number
+export function buffer_get_not_found_glyph(buffer: buffer_t): codepoint_t
 export function buffer_get_replacement_codepoint(buffer: buffer_t): codepoint_t
 export function buffer_get_script(buffer: buffer_t): script_t
 export function buffer_get_segment_properties(buffer: buffer_t): /* props */ segment_properties_t
@@ -822,6 +836,7 @@ export function buffer_set_invisible_glyph(buffer: buffer_t, invisible: codepoin
 export function buffer_set_language(buffer: buffer_t, language: language_t): void
 export function buffer_set_length(buffer: buffer_t, length: number): bool_t
 export function buffer_set_message_func(buffer: buffer_t, func: buffer_message_func_t): void
+export function buffer_set_not_found_glyph(buffer: buffer_t, not_found: codepoint_t): void
 export function buffer_set_replacement_codepoint(buffer: buffer_t, replacement: codepoint_t): void
 export function buffer_set_script(buffer: buffer_t, script: script_t): void
 export function buffer_set_segment_properties(buffer: buffer_t, props: segment_properties_t): void
@@ -1079,6 +1094,7 @@ export function shape_plan_create_cached2(face: face_t, props: segment_propertie
 export function shape_plan_execute(shape_plan: shape_plan_t, font: font_t, buffer: buffer_t, features: feature_t[]): bool_t
 export function shape_plan_get_empty(): shape_plan_t
 export function shape_plan_get_shaper(shape_plan: shape_plan_t): string
+export function style_get_value(font: font_t, style_tag: style_tag_t): number
 export function tag_from_string(str: Uint8Array): tag_t
 export function tag_to_string(tag: tag_t): /* buf */ Uint8Array
 export function unicode_combining_class(ufuncs: unicode_funcs_t, unicode: codepoint_t): unicode_combining_class_t

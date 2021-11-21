@@ -379,6 +379,7 @@ export enum UnicodeBreakType {
     HANGUL_LV_SYLLABLE,
     HANGUL_LVT_SYLLABLE,
     CLOSE_PARANTHESIS,
+    CLOSE_PARENTHESIS,
     CONDITIONAL_JAPANESE_STARTER,
     HEBREW_LETTER,
     REGIONAL_INDICATOR,
@@ -959,6 +960,7 @@ export const USEC_PER_SEC: number
 export const VA_COPY_AS_ARRAY: number
 export const VERSION_MIN_REQUIRED: number
 export const WIN32_MSG_HANDLE: number
+export const macro__has_attribute___noreturn__: number
 export function access(filename: string, mode: number): number
 export function ascii_digit_value(c: number): number
 export function ascii_dtostr(buffer: string, buf_len: number, d: number): string
@@ -1032,7 +1034,7 @@ export function byte_array_steal(array: Uint8Array): [ /* returnType */ number, 
 export function byte_array_unref(array: Uint8Array): void
 export function canonicalize_filename(filename: string, relative_to?: string | null): string
 export function chdir(path: string): number
-export function check_version(required_major: number, required_minor: number, required_micro: number): string
+export function check_version(required_major: number, required_minor: number, required_micro: number): string | null
 export function checksum_type_get_length(checksum_type: ChecksumType): number
 export function child_watch_add(priority: number, pid: Pid, function_: ChildWatchFunc): number
 export function child_watch_source_new(pid: Pid): Source
@@ -1215,13 +1217,12 @@ export function path_get_basename(file_name: string): string
 export function path_get_dirname(file_name: string): string
 export function path_is_absolute(file_name: string): boolean
 export function path_skip_root(file_name: string): string | null
-export function pattern_match(pspec: PatternSpec, string_length: number, string: string, string_reversed?: string | null): boolean
 export function pattern_match_simple(pattern: string, string: string): boolean
-export function pattern_match_string(pspec: PatternSpec, string: string): boolean
 export function pointer_bit_lock(address: object, lock_bit: number): void
 export function pointer_bit_trylock(address: object, lock_bit: number): boolean
 export function pointer_bit_unlock(address: object, lock_bit: number): void
 export function poll(fds: PollFD, nfds: number, timeout: number): number
+export function prefix_error_literal(err: Error | null, prefix: string): void
 export function propagate_error(src: Error): /* dest */ Error | null
 export function quark_from_static_string(string?: string | null): Quark
 export function quark_from_string(string?: string | null): Quark
@@ -1293,13 +1294,14 @@ export function spawn_async(working_directory: string | null, argv: string[], en
 export function spawn_async_with_fds(working_directory: string | null, argv: string[], envp: string[] | null, flags: SpawnFlags, child_setup: SpawnChildSetupFunc | null, stdin_fd: number, stdout_fd: number, stderr_fd: number): [ /* returnType */ boolean, /* child_pid */ Pid | null ]
 export function spawn_async_with_pipes(working_directory: string | null, argv: string[], envp: string[] | null, flags: SpawnFlags, child_setup?: SpawnChildSetupFunc | null): [ /* returnType */ boolean, /* child_pid */ Pid | null, /* standard_input */ number | null, /* standard_output */ number | null, /* standard_error */ number | null ]
 export function spawn_async_with_pipes_and_fds(working_directory: string | null, argv: string[], envp: string[] | null, flags: SpawnFlags, child_setup: SpawnChildSetupFunc | null, stdin_fd: number, stdout_fd: number, stderr_fd: number, source_fds: number[] | null, target_fds: number[] | null): [ /* returnType */ boolean, /* child_pid_out */ Pid | null, /* stdin_pipe_out */ number | null, /* stdout_pipe_out */ number | null, /* stderr_pipe_out */ number | null ]
-export function spawn_check_exit_status(exit_status: number): boolean
+export function spawn_check_exit_status(wait_status: number): boolean
+export function spawn_check_wait_status(wait_status: number): boolean
 export function spawn_close_pid(pid: Pid): void
 export function spawn_command_line_async(command_line: string): boolean
-export function spawn_command_line_sync(command_line: string): [ /* returnType */ boolean, /* standard_output */ Uint8Array | null, /* standard_error */ Uint8Array | null, /* exit_status */ number | null ]
+export function spawn_command_line_sync(command_line: string): [ /* returnType */ boolean, /* standard_output */ Uint8Array | null, /* standard_error */ Uint8Array | null, /* wait_status */ number | null ]
 export function spawn_error_quark(): Quark
 export function spawn_exit_error_quark(): Quark
-export function spawn_sync(working_directory: string | null, argv: string[], envp: string[] | null, flags: SpawnFlags, child_setup?: SpawnChildSetupFunc | null): [ /* returnType */ boolean, /* standard_output */ Uint8Array | null, /* standard_error */ Uint8Array | null, /* exit_status */ number | null ]
+export function spawn_sync(working_directory: string | null, argv: string[], envp: string[] | null, flags: SpawnFlags, child_setup?: SpawnChildSetupFunc | null): [ /* returnType */ boolean, /* standard_output */ Uint8Array | null, /* standard_error */ Uint8Array | null, /* wait_status */ number | null ]
 export function stpcpy(dest: string, src: string): string
 export function str_equal(v1: object, v2: object): boolean
 export function str_has_prefix(str: string, prefix: string): boolean
@@ -1321,9 +1323,6 @@ export function strdup(str?: string | null): string
 export function strerror(errnum: number): string
 export function strescape(source: string, exceptions?: string | null): string
 export function strfreev(str_array?: string | null): void
-export function string_new(init?: string | null): String
-export function string_new_len(init: string, len: number): String
-export function string_sized_new(dfl_size: number): String
 export function strip_context(msgid: string, msgval: string): string
 export function strjoinv(separator: string | null, str_array: string): string
 export function strlcat(dest: string, src: string, dest_size: number): number
@@ -1511,7 +1510,7 @@ export function variant_type_string_get_depth_(type_string: string): number
 export function variant_type_string_is_valid(type_string: string): boolean
 export function variant_type_string_scan(string: string, limit?: string | null): [ /* returnType */ boolean, /* endptr */ string | null ]
 export interface ChildWatchFunc {
-    (pid: Pid, status: number): void
+    (pid: Pid, wait_status: number): void
 }
 export interface ClearHandleFunc {
     (handle_id: number): void
@@ -1763,6 +1762,7 @@ export class Bytes {
     compare(bytes2: Bytes): number
     equal(bytes2: Bytes): boolean
     get_data(): Uint8Array | null
+    get_region(element_size: number, offset: number, n_elements: number): object | null
     get_size(): number
     hash(): number
     new_from_bytes(offset: number, length: number): Bytes
@@ -2344,9 +2344,16 @@ export class OptionGroup {
 }
 export class PatternSpec {
     /* Methods of GLib.PatternSpec */
+    copy(): PatternSpec
     equal(pspec2: PatternSpec): boolean
     free(): void
+    match(string_length: number, string: string, string_reversed?: string | null): boolean
+    match_string(string: string): boolean
     static name: string
+    static new(pattern: string): PatternSpec
+    constructor(pattern: string)
+    /* Static methods and pseudo-constructors */
+    static new(pattern: string): PatternSpec
 }
 export class PollFD {
     /* Fields of GLib.PollFD */
@@ -2595,6 +2602,7 @@ export class Source {
     set_name(name: string): void
     set_priority(priority: number): void
     set_ready_time(ready_time: number): void
+    set_static_name(name: string): void
     unref(): void
     static name: string
     static new(source_funcs: SourceFuncs, struct_size: number): Source
@@ -2660,6 +2668,12 @@ export class String {
     truncate(len: number): String
     up(): String
     static name: string
+    static new(init?: string | null): String
+    constructor(init?: string | null)
+    /* Static methods and pseudo-constructors */
+    static new(init?: string | null): String
+    static new_len(init: string, len: number): String
+    static sized_new(dfl_size: number): String
 }
 export class StringChunk {
     /* Methods of GLib.StringChunk */
@@ -2673,11 +2687,14 @@ export class StringChunk {
 export class StrvBuilder {
     /* Methods of GLib.StrvBuilder */
     add(value: string): void
+    addv(value: string[]): void
     end(): string[]
     unref(): void
     static name: string
 }
 export class TestCase {
+    /* Methods of GLib.TestCase */
+    free(): void
     static name: string
 }
 export class TestConfig {
@@ -2710,6 +2727,7 @@ export class TestSuite {
     /* Methods of GLib.TestSuite */
     add(test_case: TestCase): void
     add_suite(nestedsuite: TestSuite): void
+    free(): void
     static name: string
 }
 export class Thread {
@@ -2817,6 +2835,7 @@ export class Tree {
     node_last(): TreeNode | null
     ref(): Tree
     remove(key?: object | null): boolean
+    remove_all(): void
     replace(key?: object | null, value?: object | null): void
     replace_node(key?: object | null, value?: object | null): TreeNode
     steal(key?: object | null): boolean

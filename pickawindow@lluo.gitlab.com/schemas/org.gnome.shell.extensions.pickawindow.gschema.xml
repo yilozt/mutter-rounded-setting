@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.pickawindow" path="/org/gnome/shell/extensions/pickawindow/">
+    <key name="pick-position" type="(ii)">
+      <default>(0, 0)</default>
+    </key>
+    <key name="wm-instance" type="s">
+      <default>''</default>
+    </key>
+  </schema>
+</schemalist>

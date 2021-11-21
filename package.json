@@ -4,15 +4,10 @@
   "description": "",
   "main": "src/main.ts",
   "scripts": {
-    "build": "npm run build:types && npm run build:ts",
-    "build:ts": "npm run clear:ts && webpack",
     "build:types": "npm run clear:types && ts-for-gir generate",
     "clear:types": "rm -rf ./@types",
-    "clear:ts": "rm -rf ./dist",
-    "clear": "npm run clear:ts && npm run build:types",
-    "start": "npm run build && gjs dist/main.js",
-    "watch": "npm run build -- --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "webpack": "webpack",
+    "package": "npm run webpack && tar cf mutter-settings.tar pickawindow@lluo.gitlab.com dist/mutter_settings.js"
   },
   "author": "",
   "license": "GPL-2.0",
