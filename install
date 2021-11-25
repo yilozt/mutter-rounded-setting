@@ -1,0 +1,41 @@
+#!/bin/bash
+
+uuid=pickawindow@lluo.gitlab.com
+schemas_dir=$HOME/.local/share/glib-2.0/schemas/
+extension_dir=$HOME/.local/share/gnome-shell/extensions/$uuid
+schemas_name=org.gnome.shell.extensions.pickawindow.gschema.xml
+
+function red() {
+  printf "\033[31m %s \033[0m" "$@"
+}
+
+function green() {
+  printf "\033[32m %s \033[0m" "$@"
+}
+
+function run() {
+  echo "$(green [run]) $*"
+  $@
+  if [ "$?" != "0" ]; then
+    echo "$(red [err]) $@"
+    exit 1
+  fi 
+}
+
+cd $(dirname $0)
+
+[ -f ${uuid}.shell-extension.zip ] && \
+  run rm ${uuid}.shell-extension.zip
+  
+[ -d $extension_dir ] && \
+  run rm -r $extension_dir
+  
+run gnome-extensions pack $uuid
+run gnome-extensions install --force ${uuid}.shell-extension.zip
+run ln -s $extension_dir/schemas/$schemas_name $extension_dir
+run glib-compile-schemas $schemas_dir
+
+echo
+echo $(green \
+  'Relogin into session and use `gjs dist/mutter_settings.js` to change settings' \
+)

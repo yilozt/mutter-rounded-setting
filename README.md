@@ -15,3 +15,13 @@ yarn
 ```
 yarn webpack
 ```
+
+# Install 
+
+```bash
+git clone https://gitlab.gnome.org/lluo/mutter-rounded-setting
+cd ./mutter-rounded-setting
+./install
+```
+
+You can move `dist/mutter_settings.js` to anywhere if you want.
