@@ -3,6 +3,7 @@
   "description": "used by mutter-rounded: get wm_class_instance of a window",
   "uuid": "pickawindow@lluo.gitlab.com",
   "shell-version": [
+    "40",
     "41"
   ]
 }

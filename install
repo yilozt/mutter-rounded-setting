@@ -6,11 +6,11 @@ extension_dir=$HOME/.local/share/gnome-shell/extensions/$uuid
 schemas_name=org.gnome.shell.extensions.pickawindow.gschema.xml
 
 function red() {
-  printf "\033[31m %s \033[0m" "$@"
+  printf "\033[31m%s\033[0m" "$@"
 }
 
 function green() {
-  printf "\033[32m %s \033[0m" "$@"
+  printf "\033[32m%s\033[0m" "$@"
 }
 
 function run() {
@@ -32,8 +32,10 @@ cd $(dirname $0)
   
 run gnome-extensions pack $uuid
 run gnome-extensions install --force ${uuid}.shell-extension.zip
-run ln -s $extension_dir/schemas/$schemas_name $extension_dir
+run mkdir -p $schemas_dir
+run ln -sf $extension_dir/schemas/$schemas_name $schemas_dir
 run glib-compile-schemas $schemas_dir
+run gsettings set org.gnome.shell disable-user-extensions false
 
 echo
 echo $(green \
