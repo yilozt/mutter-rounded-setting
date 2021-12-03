@@ -19,7 +19,7 @@ yarn webpack
 # Install 
 
 ```bash
-git clone https://gitlab.gnome.org/lluo/mutter-rounded-setting
+git clone https://github.com/yilozt/mutter-rounded-setting
 cd ./mutter-rounded-setting
 ./install
 ```
