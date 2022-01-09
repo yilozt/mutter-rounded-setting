@@ -31,6 +31,18 @@
     <property name="lower">0</property>
     <property name="step-increment">1</property>
   </object>
+  <object class="GtkAdjustment" id="adj_border_width">
+    <property name="upper">100</property>
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="step-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_border_brightness">
+    <property name="upper">100</property>
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="step-increment">1</property>
+  </object>
   
   <object class="GtkAdjustment" id="adj_blur_sigmal">
     <property name="upper">100</property>
@@ -92,6 +104,53 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
+                      <object class="GtkListBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="selection-mode">none</property>
+                        <style>
+                          <class name="content" />
+                        </style>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Border width</property>
+                            <property name="activatable_widget">radius_scale</property>
+                            <child>
+                              <object class="GtkScale" id="border_width">
+                                <property name="visible">True</property>
+                                <property name="value-pos">left</property>
+                                <property name="adjustment">adj_border_width</property>
+                                <property name="width-request">250</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Border brightness</property>
+                            <property name="activatable_widget">radius_scale</property>
+                            <child>
+                              <object class="GtkScale" id="border_brightness">
+                                <property name="visible">True</property>
+                                <property name="value-pos">left</property>
+                                <property name="adjustment">adj_border_brightness</property>
+                                <property name="width-request">250</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyPreferencesGroup">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
                       <object class="GtkListBox" id="lists_listbox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -108,9 +167,9 @@
                             <child>
                               <object class="GtkScale" id="radius_scale">
                                 <property name="visible">True</property>
-                                <property name="hexpand">True</property>
                                 <property name="value-pos">left</property>
                                 <property name="adjustment">adj_radius</property>
+                                <property name="width-request">250</property>
                               </object>
                             </child>
                           </object>

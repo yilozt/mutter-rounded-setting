@@ -219,6 +219,14 @@ function global_setting(builder: Gtk.Builder) {
 
   const values_to_bind = [
     {
+      obj: "adj_border_width",
+      settings: "border-width",
+    },
+    {
+      obj: "adj_border_brightness",
+      settings: "border-brightness",
+    },
+    {
       obj: "adj_radius",
       settings: "round-corners-radius",
     },
@@ -233,7 +241,7 @@ function global_setting(builder: Gtk.Builder) {
     {
       obj: "adj_blured_window_opacity",
       settings: "blur-window-opacity",
-    },
+    }
   ];
 
   values_to_bind.forEach((v) => {

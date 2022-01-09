@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'production',
   entry: {
     mutter_settings: "./src/main.ts",
   },
