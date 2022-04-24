@@ -115,6 +115,21 @@
                         <child>
                           <object class="HdyActionRow">
                             <property name="visible">True</property>
+                            <property name="title" translatable="yes">Rounded in maximized</property>
+                            <property name="subtitle">Windows will enable rounded corners when maximized</property>
+                            <property name="activatable_widget">rounded_in_maximized</property>
+                            <child>
+                              <object class="GtkSwitch" id="rounded_in_maximized">
+                                <property name="visible">True</property>
+                                <property name="vexpand">False</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow">
+                            <property name="visible">True</property>
                             <property name="title" translatable="yes">Border width</property>
                             <property name="activatable_widget">radius_scale</property>
                             <child>

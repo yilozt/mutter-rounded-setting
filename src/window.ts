@@ -113,7 +113,7 @@ function new_item({
 
   pick_bl_btn.connect("clicked", () =>
     RunPickWindow((app) => {
-      log('[pick] ' + app);
+      log("[pick] " + app);
       if (app.length > 0) {
         entry.text = app;
         if (entry.text != row.title) {
@@ -219,33 +219,33 @@ function global_setting(builder: Gtk.Builder) {
 
   const values_to_bind = [
     {
-      obj: "adj_border_width",
+      view_id: "adj_border_width",
       settings: "border-width",
     },
     {
-      obj: "adj_border_brightness",
+      view_id: "adj_border_brightness",
       settings: "border-brightness",
     },
     {
-      obj: "adj_radius",
+      view_id: "adj_radius",
       settings: "round-corners-radius",
     },
     {
-      obj: "adj_blur_sigmal",
+      view_id: "adj_blur_sigmal",
       settings: "blur-sigmal",
     },
     {
-      obj: "adj_blur_brightness",
+      view_id: "adj_blur_brightness",
       settings: "blur-brightness",
     },
     {
-      obj: "adj_blured_window_opacity",
+      view_id: "adj_blured_window_opacity",
       settings: "blur-window-opacity",
-    }
+    },
   ];
 
   values_to_bind.forEach((v) => {
-    const adj_radius = builder.get_object(v.obj) as Gtk.Adjustment;
+    const adj_radius = builder.get_object(v.view_id) as Gtk.Adjustment;
     settings.bind(
       v.settings,
       adj_radius,
@@ -253,6 +253,13 @@ function global_setting(builder: Gtk.Builder) {
       Gio.SettingsBindFlags.DEFAULT
     );
   });
+
+  settings.bind(
+    "rounded-in-maximized",
+    builder.get_object("rounded_in_maximized") as Gtk.Switch,
+    "active",
+    Gio.SettingsBindFlags.DEFAULT
+  );
 }
 
 export function SettingsWin(app: Gtk.Application): Gtk.Window {
