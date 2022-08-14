@@ -24,4 +24,4 @@ cd ./mutter-rounded-setting
 ./install
 ```
 
-You can move `dist/mutter_settings.js` to anywhere if you want.
+You can move `dist/mutter_settings.js` && RunBinary to anywhere if you want.
